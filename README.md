@@ -1,3 +1,22 @@
+```css
+[v-cloak] {
+  display: none;
+}
+```
+
+```html
+<div id="app" v-cloak>
+  {{greeting}}
+  <input @keyup.enter="greet(greeting + '!!!!')" v-model="greeting" />
+
+  <hr />
+  <button @click.prevent.stop="toggleBox">Toggle Box</button>
+  <div v-if="isVisible" class="box"></div>
+</div>
+```
+
+렌더링 처음 vue.js가 처리되기 이전에 {{}}, v-if 문 등 보여주지 않을 내용들이 화면에 그대로 노출된다. v-cloak을 사용하면 이를 감출 수 있다.
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
