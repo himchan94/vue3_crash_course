@@ -275,3 +275,118 @@ app.component("custom-input", {
   // }
 });
 ```
+
+### Loops
+
+```js
+  <p v-for="(str, i) in inputs" :key="i"> {{str}} </p>
+
+   data() {
+          return {
+            title: "Login Form",
+            inputs: ["email", "password", "name"],
+            email: "",
+            password: "",
+            emailLabel: "Email",
+            passwordLabel: "Password",
+          };
+        },
+```
+
+```js
+let app = Vue.createApp({
+  data: function () {
+    return {
+      greeting: "Hello Vue 3!",
+      isVisible: false,
+      isVisible2: true,
+    };
+  },
+
+  methods: {
+    toggleBox() {
+      this.isVisible = !this.isVisible;
+    },
+
+    greet(greeting) {
+      console.log(greeting);
+    },
+  },
+});
+
+app.component("login-form", {
+  template: `
+        <form @submit.prevent="handleSubmit">
+          <h1>{{title}}</h1>
+          <custom-input
+          v-for="(input, i) in inputs"
+          :key="i" 
+          v-model="input.value" 
+          :label="input.label"
+          :type="input.type"
+          />
+          <button>Log in</button>
+        </form>
+        `,
+  components: ["custom-input"],
+  data() {
+    return {
+      title: "Login Form",
+      inputs: [
+        {
+          label: "Email",
+          value: "",
+          type: "email",
+        },
+        {
+          label: "Password",
+          value: "",
+          type: "password",
+        },
+      ],
+      email: "",
+      password: "",
+      emailLabel: "Email",
+      passwordLabel: "Password",
+    };
+  },
+  methods: {
+    handleSubmit() {
+      console.log(this.inputs[0].value, this.inputs[1].value);
+    },
+  },
+});
+
+app.component("custom-input", {
+  template: `
+          <label>
+            {{label}}
+            <input :type="type" v-model="inputValue"/>
+          </label>
+        `,
+  props: ["label", "type", "modelValue"],
+  computed: {
+    inputValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
+  // data(){
+  //   return {
+  //     inputValue:'',
+  //   }
+  // }
+});
+app.mount("#app");
+```
+
+### Lifecycle Hooks
+
+- Check if user is authorized
+- Api calls
+- Creating or removing events
+- Getting or cleaning up data
